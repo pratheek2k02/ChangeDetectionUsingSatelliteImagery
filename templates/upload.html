@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px;
+            background-image: url("static/images/bg.png"), url("static/images/bg2.png");
+            background-position: left center, right center;
+            background-repeat: no-repeat;
+            width: calc(100% - 40px); /* Adjust width to fit within the viewport, accounting for margins */
+            height: auto;
+        }
+        .header, .footer {
+            background-color: #79BAEC;
+            padding: 10px 0;
+            text-align: center;
+            color: #fdfdfe;
+            text-shadow: 0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3;
+        }
+        .header img, .footer img {
+            width: 100px;
+            height: auto;
+        }
+        .header .header-content, .footer .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #000000;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping to fit smaller screens */
+        }
+        .image-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-preview img {
+            max-width: 100%; /* Adjust to fit within its container */
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 100%; /* Ensure it fits within the container */
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function previewImage(event, previewId) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById(previewId);
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/jssate.png') }}" alt="jssate">
+            <h2>CHANGE DETECTION BY SATELLITE IMAGERY</h2>
+            <img src="{{ url_for('static', filename='images/aiml.png') }}" alt="aiml">
+        </div>
+    </header>
+    <div class="container">
+        <h1>Upload two images for comparison</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img id="preview1" src="#" alt="Image Preview 1">
+                    <input type="file" name="image1" accept="image/*" onchange="previewImage(event, 'preview1')">
+                </div>
+                <div class="image-preview">
+                    <img id="preview2" src="#" alt="Image Preview 2">
+                    <input type="file" name="image2" accept="image/*" onchange="previewImage(event, 'preview2')">
+                </div>
+            </div>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Developed By Dept. of AI and ML, JSSATE</p>
+        </div>
+    </footer>
+</body>
+</html>
